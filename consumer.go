@@ -2,6 +2,7 @@ package gracesarama
 
 import (
 	"context"
+	"fmt"
 	"gopkg.in/Shopify/sarama.v1"
 	"sync"
 )
@@ -43,7 +44,7 @@ type ConsumerGroupRunner struct {
 func (cgr *ConsumerGroupRunner) Run(ctx context.Context) error {
 	group, err := sarama.NewConsumerGroup(cgr.addrs, cgr.groupID, cgr.config)
 	if err != nil {
-		return err
+		return fmt.Errorf("could not create new consumer group: %w", err)
 	}
 	cgr.consumerGroup = group
 

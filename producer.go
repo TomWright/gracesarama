@@ -2,6 +2,7 @@ package gracesarama
 
 import (
 	"context"
+	"fmt"
 	"gopkg.in/Shopify/sarama.v1"
 )
 
@@ -42,7 +43,7 @@ func (cgr *ProducerRunner) Input() chan<- *sarama.ProducerMessage {
 func (cgr *ProducerRunner) Run(ctx context.Context) error {
 	producer, err := sarama.NewSyncProducer(cgr.addrs, cgr.config)
 	if err != nil {
-		return err
+		return fmt.Errorf("could not create new sync producer: %w", err)
 	}
 	cgr.producer = producer
 
