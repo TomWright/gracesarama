@@ -13,6 +13,7 @@ func NewProducerRunner(addrs []string, config *sarama.Config) *ProducerRunner {
 	runner := &ProducerRunner{
 		addrs:  addrs,
 		config: config,
+		input:  make(chan *sarama.ProducerMessage),
 	}
 	return runner
 }
@@ -76,5 +77,7 @@ func (cgr *ProducerRunner) Run(ctx context.Context) error {
 
 func (cgr *ProducerRunner) handleCtxDone(ctx context.Context) {
 	<-ctx.Done()
-	close(cgr.input)
+	if cgr.input != nil {
+		close(cgr.input)
+	}
 }
