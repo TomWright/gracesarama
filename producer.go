@@ -3,7 +3,7 @@ package gracesarama
 import (
 	"context"
 	"fmt"
-	"gopkg.in/Shopify/sarama.v1"
+	"github.com/Shopify/sarama"
 )
 
 // NewProducerRunner returns a producer runner that can publish messages async through channels.

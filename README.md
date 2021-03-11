@@ -17,7 +17,7 @@ import (
 	"fmt"
 	"github.com/tomwright/grace"
 	"github.com/tomwright/gracesarama"
-	"gopkg.in/Shopify/sarama.v1"
+	"github.com/Shopify/sarama"
 	"log"
 )
 
@@ -66,7 +66,7 @@ import (
 	"context"
 	"github.com/tomwright/grace"
 	"github.com/tomwright/gracesarama"
-	"gopkg.in/Shopify/sarama.v1"
+	"github.com/Shopify/sarama"
 	"log"
 )
 
