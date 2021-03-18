@@ -64,7 +64,7 @@ consumeLoop:
 		// server-side rebalance happens, the consumer session will need to be
 		// recreated to get the new claims
 		if cgr.LogFn != nil {
-			cgr.LogFn("started to consume with sarama consumer group for topics: %s", cgr.topics)
+			cgr.LogFn("gracesarama: consumer group [%s]: starting to consume topics: %s", cgr.groupID, cgr.topics)
 		}
 		if err := cgr.consumerGroup.Consume(ctx, cgr.topics, cgr.handler); err != nil {
 			if err == sarama.ErrClosedConsumerGroup {
@@ -78,7 +78,7 @@ consumeLoop:
 			return err
 		}
 		if cgr.LogFn != nil {
-			cgr.LogFn("sarama consumer group ended for topics: %s", cgr.topics)
+			cgr.LogFn("gracesarama: consumer group [%s]: stopped consuming topics: %s", cgr.groupID, cgr.topics)
 		}
 	}
 
