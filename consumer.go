@@ -38,6 +38,10 @@ type ConsumerGroupRunner struct {
 	// ErrorHandlerFn handles any errors found while consuming.
 	// If it is nil errors are ignored.
 	ErrorHandlerFn func(err error)
+
+	// LogFn is used to log any debug/info messages from the runner.
+	// Leave as nil if you do not want any log messages.
+	LogFn func(format string, a ...interface{})
 }
 
 // Run starts up the consumer group.
@@ -59,6 +63,9 @@ consumeLoop:
 		// `Consume` should be called inside an infinite loop, when a
 		// server-side rebalance happens, the consumer session will need to be
 		// recreated to get the new claims
+		if cgr.LogFn != nil {
+			cgr.LogFn("started to consume with sarama consumer group for topics: %s", cgr.topics)
+		}
 		if err := cgr.consumerGroup.Consume(ctx, cgr.topics, cgr.handler); err != nil {
 			if err == sarama.ErrClosedConsumerGroup {
 				// Wait for consumerGroup.Close() to return before exiting.
@@ -69,6 +76,9 @@ consumeLoop:
 			}
 
 			return err
+		}
+		if cgr.LogFn != nil {
+			cgr.LogFn("sarama consumer group ended for topics: %s", cgr.topics)
 		}
 	}
 
