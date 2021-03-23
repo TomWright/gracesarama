@@ -7,13 +7,13 @@ import (
 )
 
 // NewProducerRunner returns a producer runner that can publish messages async through channels.
-func NewProducerRunner(addrs []string, config *sarama.Config) *ProducerRunner {
+func NewProducerRunner(addrs []string, config *sarama.Config, chanBuffer int) *ProducerRunner {
 	config.Producer.Return.Errors = true
 	config.Producer.Return.Successes = true
 	runner := &ProducerRunner{
 		addrs:  addrs,
 		config: config,
-		input:  make(chan *sarama.ProducerMessage),
+		input:  make(chan *sarama.ProducerMessage, chanBuffer),
 	}
 	return runner
 }
